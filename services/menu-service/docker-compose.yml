@@ -1,0 +1,15 @@
+services:
+  menu-service:
+    build: .
+    environment:
+      PORT: 4001
+      SEED_ON_START: "true"
+      DB_DIR: /app/data
+    ports:
+      - "4001:4001"
+    volumes:
+      - menu-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  menu-data:

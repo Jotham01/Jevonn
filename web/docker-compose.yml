@@ -1,0 +1,10 @@
+services:
+
+  web:
+    build: .
+    environment:
+     MENU_URL: ${MENU_URL:-http://localhost:4001}
+     ORDER_URL: ${ORDER_URL:-http://localhost:4002}
+    ports:
+    - "80:80"
+    restart: unless-stopped

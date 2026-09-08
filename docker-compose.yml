@@ -1,0 +1,45 @@
+services:
+  menu-service:
+    build: ./services/menu-service
+    environment:
+      PORT: 4001
+      SEED_ON_START: "true"
+      DB_DIR: /app/data
+    ports:
+      - "4001:4001"
+    volumes:
+      - menu-data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  order-service:
+    build: ./services/order-service
+    environment:
+      PORT: 4002
+      MENU_SERVICE_URL: http://menu-service:4001
+      DB_DIR: /app/data
+    ports:
+      - "4002:4002"
+    volumes:
+      - order-data:/app/data
+    depends_on:
+      menu-service:
+        condition: service_healthy
+
+  web:
+    build: ./web
+    environment:
+      MENU_URL: http://localhost:4001
+      ORDER_URL: http://localhost:4002
+    ports:
+      - "8080:80"
+    depends_on:
+      - menu-service
+      - order-service
+
+volumes:
+  menu-data:
+  order-data:

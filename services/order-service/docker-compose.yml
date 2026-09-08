@@ -1,0 +1,15 @@
+services:
+  order-service:
+    build: .
+    environment:
+      PORT: 4002
+      MENU_SERVICE_URL: ${MENU_SERVICE_URL:-http://localhost:4001}
+      DB_DIR: /app/data
+    ports:
+      - "4002:4002"
+    volumes:
+      - order-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  order-data:

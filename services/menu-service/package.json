@@ -1,0 +1,16 @@
+{
+  "name": "menu-service",
+  "version": "1.0.0",
+  "description": "Food menu / catalog microservice",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "seed": "node src/seed.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
